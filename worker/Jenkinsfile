@@ -41,7 +41,7 @@ pipeline{
     post{
         always{
             echo "Execution of all stages Done"
-            archiveArtifacts '*/target/*.jar'
+            archiveArtifacts artifacts: '*/target/*.jar'
 	    	sleep 10
         }
     }
