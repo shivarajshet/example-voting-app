@@ -1,0 +1,50 @@
+pipeline{
+    
+    agent any
+    
+    tools {
+	maven "Maven 3.6.1"
+
+    }
+
+    stages {
+        stage(build){
+        	when {
+        		changeset "**/worker/**"
+        	}
+            steps{
+                echo "Compiling worker app.."
+				dir('worker'){
+		  			sh 'mvn compile'
+                }
+            }	
+        }
+        stage(test){
+        	when {
+        		changeset "**/worker/**"
+        	}
+            steps{
+                echo "Running Unit Tests on worker app.."
+				dir('worker'){
+		  			sh 'mvn clean test'
+				}            
+        	}		
+        }
+        
+        stage(package){
+            steps{
+                echo "Pacakaging worker app"
+                dir('worker'){
+		   			sh 'mvn package -DskipTests'
+                }  	
+            }
+        }
+    }
+    
+    post{
+        always{
+            archiveArtifacts '**/target/*.jar'
+	    	echo "Building multibranch pipeline for worker is completed and Execution of all stages Done and packaging completed"
+        }
+    }
+}
