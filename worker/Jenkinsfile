@@ -12,22 +12,28 @@ pipeline{
             steps{
                 echo "Building worker app"
 		dir('worker'){
-		  sh 'mvn complie'
-                  sleep 5
+		  sh 'mvn compile'
+		  sleep 5
                 }
             }	
         }
         stage(test){
             steps{
-                echo "Hello Shiv to stage Two"
-                sleep 5
-            }
+                echo "Testing worker app"
+		dir('worker'){
+		  sh 'mvn test'
+                  sleep 5
+		}            
+             }		
         }
         
         stage(package){
             steps{
                 echo "Hello Shiv to stage Three"
-                sleep 5
+                dir('worker'){
+		   sh 'mvn clean'
+		   sleep 5
+                }  	
             }
         }
     }
