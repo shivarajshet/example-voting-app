@@ -14,8 +14,9 @@ pipeline{
         	}
             steps{
                 echo "Compiling worker app.."
-		dir('worker'){
-		  	sh 'mvn compile'
+		dir('result'){
+		  	sh 'npm install'
+            sh 'npm ls'
                 }
             }	
         }
@@ -25,8 +26,9 @@ pipeline{
         	}
             steps{
                 echo "Running Unit Tests on worker app.."
-		dir('worker'){
-		  	sh 'mvn clean test'
+		dir('result'){
+		  	sh 'npm install'
+            sh 'npm test'
 			}            
         	}		
         }
