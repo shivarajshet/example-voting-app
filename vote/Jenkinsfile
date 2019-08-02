@@ -11,9 +11,6 @@ pipeline {
               args '--user root'
             }
           }
-#          when{
-#            changeset "**/vote/**"
-#          }
           steps{
             echo 'Compiling vote app'
             dir('vote'){
@@ -29,9 +26,6 @@ pipeline {
               args '--user root'
             }
           }
-#          when{
-#            changeset "**/vote/**"
-#          }
           steps{
             echo 'Running Unit Tests on vote app'
             dir('vote'){
@@ -42,15 +36,11 @@ pipeline {
       }
       stage('docker-package'){
           agent any
-#          when{
-#            changeset "**/vote/**"
-#            branch 'master'
-#          }
           steps{
             echo 'Packaging vote app with docker'
             script{
               docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-                  def workerImage = docker.build("xxxxxxx/vote:v${env.BUILD_ID}", "./vote")
+                  def workerImage = docker.build("shivarajshet/vote:v${env.BUILD_ID}", "./vote")
                   workerImage.push()
                   workerImage.push("${env.BRANCH_NAME}")
               }
