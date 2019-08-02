@@ -9,8 +9,11 @@ pipeline{
 
     stages {
         stage(build){
+        	when {
+        		changeset "**/worker/**"
+        	}
             steps{
-                echo "Building worker app"
+                echo "Compiling worker app.."
 				dir('worker'){
 		  			sh 'mvn compile'
 		  			sleep 3
@@ -18,10 +21,13 @@ pipeline{
             }	
         }
         stage(test){
+        	when {
+        		changeset "**/worker/**"
+        	}
             steps{
-                echo "Testing worker app"
+                echo "Running Unit Tests on worker app.."
 				dir('worker'){
-		  			sh 'mvn test'
+		  			sh 'mvn clean test'
                   	sleep 3
 				}            
         	}		
