@@ -29,9 +29,9 @@ pipeline{
         
         stage(package){
             steps{
-                echo "Hello Shiv to stage Three"
+                echo "Pacakaging worker app"
                 dir('worker'){
-		   			sh 'mvn clean'
+		   			sh 'mvn package'
 		   			sleep 5
                 }  	
             }
@@ -41,7 +41,7 @@ pipeline{
     post{
         always{
             echo "Execution of all stages Done"
-            archiveArtifacts artifacts: '*/target/*.jar'
+            archiveArtifacts '**/target/*.jar'
 	    	sleep 10
         }
     }
