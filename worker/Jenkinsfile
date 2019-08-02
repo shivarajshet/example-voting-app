@@ -13,7 +13,7 @@ pipeline{
                 echo "Building worker app"
 				dir('worker'){
 		  			sh 'mvn compile'
-		  			sleep 5
+		  			sleep 3
                 }
             }	
         }
@@ -22,7 +22,7 @@ pipeline{
                 echo "Testing worker app"
 				dir('worker'){
 		  			sh 'mvn test'
-                  	sleep 5
+                  	sleep 3
 				}            
         	}		
         }
@@ -32,7 +32,7 @@ pipeline{
                 echo "Pacakaging worker app"
                 dir('worker'){
 		   			sh 'mvn package'
-		   			sleep 5
+		   			sleep 3
                 }  	
             }
         }
@@ -40,9 +40,9 @@ pipeline{
     
     post{
         always{
-            echo "Execution of all stages Done"
             archiveArtifacts '**/target/*.jar'
-	    	sleep 10
+	    	echo "Execution of all stages Done and packaging completed"
+	    	sleep 3
         }
     }
 }
